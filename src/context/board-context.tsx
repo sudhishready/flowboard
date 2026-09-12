@@ -57,4 +57,16 @@ export function BoardProvider({ children }: { children: ReactNode }) {
             cards: { ...prev.cards, [cardId]: { ...prev.cards[cardId], ...data}}
         }));
 };
+
+const deleteCard = (cardId: string) => {
+    setBoard((prev) => {
+        const cards = { ...prev.cards };
+        delete cards[cardId];
+        return {
+            ...prev,
+            columns: prev.columns.map((c) => ({ ...c, cardIds: c.cardIds.filter((id) => id !== cardId)})),
+        cards
+        }
+    });
+};
 }
