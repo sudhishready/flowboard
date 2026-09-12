@@ -27,4 +27,16 @@ export function BoardProvider({ children }: { children: ReactNode }) {
             setBoard(stored);
         }
     }, []);
+
+    useEffect(() => {
+        saveBoard(board);
+    }, [board]);
+
+    const addColumn = (title: string) => {
+        setBoard((prev) => ({...prev, columns: [...prev.columns, { id: nanoid(), title, cardIds: [] }]}));
+    };
+
+    const deleteColumn = (columnId: string) => {
+        setBoard((prev) => ({ ...prev, columns: prev.columns.filter((c) => c.id !== columnId)}));
+    };
 }
