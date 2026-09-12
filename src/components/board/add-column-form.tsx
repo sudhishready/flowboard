@@ -13,7 +13,7 @@ export function AddColumnForm() {
     if (!isOpen) {
     return  (
         <Button variant="outline" onClick={() => setIsOpen(true)}>
-        + Add Columnn
+        + Add Column
         </Button>
         );
         }
