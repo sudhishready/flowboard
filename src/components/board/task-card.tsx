@@ -41,6 +41,7 @@ export function TaskCard({ card, onClick }: TaskCardProps) {
 >
     {priorityLabel[card.priority]}</Badge>
         {card.dueDate && <span className="text-xs text-slate-400">{card.dueDate}</span>}
+        {card.labels.map((label => (<Badge key={label} variant="secondary">{label}</Badge>)))}
         </div>
         </div>
         );
