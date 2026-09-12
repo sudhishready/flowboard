@@ -69,4 +69,20 @@ const deleteCard = (cardId: string) => {
         }
     });
 };
+
+const moveCard = (cardId: string, fromColumnId: string, toColumnId: string, index: number) => {
+    setBoard((prev) => {
+        const columns = prev.columns.map((c) => {
+            if (c.id === fromColumnId) return { ...c, cardIds: c.cardIds.filter((id) => id !== cardId) };
+            return c;
+        });
+        const target = columns.find((c) => c.id === toColumnId);
+        if (target) {
+            const newCardIds = [...target.cardIds];
+            newCardIds.splice(index, 0, cardId);
+            target.cardIds = newCardIds;
+        }
+        return { ...prev, columns };
+    })
+};
 }
