@@ -49,4 +49,12 @@ export function BoardProvider({ children }: { children: ReactNode }) {
             cards: { ...prev.cards, [id]: newCard }
         }));
     };
+
+    const updateCard = (cardId: string, data: Partial<CardData>) => 
+    {
+        setBoard((prev) => ({
+            ...prev,
+            cards: { ...prev.cards, [cardId]: { ...prev.cards[cardId], ...data}}
+        }));
+};
 }
