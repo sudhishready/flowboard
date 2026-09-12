@@ -9,9 +9,10 @@ import { X } from "lucide-react";
 interface ColumnProps {
     column: ColumnData;
     onCardClick: (cardId: string) => void;
+    search: string;
 }
 
-export function Column({ column, onCardClick }: ColumnProps) {
+export function Column({ column, onCardClick, search }: ColumnProps) {
 const { board, deleteColumn, moveCard} = useBoard(); 
 const [isOver, setIsOver] = useState(false);
 
@@ -38,7 +39,7 @@ return (
                 </button>
                 </div>
                 <div className="flex flex-col gap-2">
-                    {column.cardIds.map((cardId) => (
+                    {column.cardIds.filter((cardId) => board.cards[cardId].title.toLowerCase().includes(search.toLowerCase())).map((cardId) => (
                     <div
                     key={cardId}
                     draggable
