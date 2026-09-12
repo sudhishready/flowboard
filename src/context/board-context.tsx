@@ -85,4 +85,23 @@ const moveCard = (cardId: string, fromColumnId: string, toColumnId: string, inde
         return { ...prev, columns };
     })
 };
+
+const reorderColumn = (columnId: string, cardIds: string[]) => {
+    setBoard((prev) => ({
+        ...prev,
+        columns: prev.columns.map((c) => (c.id === columnId ? { ...c, cardIds } : c))
+    }));
+};
+
+return (
+    <BoardContext.Provider value={{board, addColumn, deleteColumn, addCard, updateCard, deleteCard, moveCard, reorderColumn}}>
+        {children}
+    </BoardContext.Provider>
+);
+}
+
+export function useBoard() {
+    const context = useContext(BoardContext);
+    if (!context) throw new Error("useBoard must be used within a BoardProvider");
+    return context;
 }
