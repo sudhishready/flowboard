@@ -4,7 +4,7 @@ import { createContext, useContext, useEffect, useState, ReactNode } from "react
 import { nanoid } from "nanoid";
 import type { BoardData, CardData } from "@/lib/types";
 import { loadBoard, saveBoard, createDefaultBoard, loadBoardsIndex, loadBoardById, saveBoardById, saveBoardsIndex, deleteBoardData } from "@/lib/storage";
-import type { BoardMeta} } from "@/lib/storage";
+import type { BoardMeta} from "@/lib/storage";
 interface BoardContextValue {
     board: BoardData;
     boards: BoardMeta[];
@@ -26,10 +26,8 @@ const BoardContext = createContext<BoardContextValue | null>(null);
 
 export function BoardProvider({ children }: { children: ReactNode }) {
     const [board, setBoard] = useState<BoardData>(() => createDefaultBoard());
-    const [boards, setBoards] = useState<BoardMeta[]
-() => [];
-const [currentBoardId, setCurrentBoardId] = useState<string
-() => "default");
+    const [boards, setBoards] = useState<BoardMeta[]>(() => []);
+    const [currentBoardId, setCurrentBoardId] = useState<string>(() => "default");
     useEffect(() => {
         let index = loadBoardsIndex();
         if (index.length === 0) {
