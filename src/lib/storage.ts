@@ -47,6 +47,7 @@ try {
 } catch {
     return [];
 }
+}
 
 export function saveBoardsIndex(index: BoardMeta[]) {
     if (typeof window === "undefined") return;

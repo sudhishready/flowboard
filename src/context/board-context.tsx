@@ -3,9 +3,15 @@
 import { createContext, useContext, useEffect, useState, ReactNode } from "react";
 import { nanoid } from "nanoid";
 import type { BoardData, CardData } from "@/lib/types";
-import { loadBoard, saveBoard, createDefaultBoard } from "@/lib/storage";
+import { loadBoard, saveBoard, createDefaultBoard, loadBoardsIndex, loadBoardById, saveBoardById, saveBoardsIndex, deleteBoardData } from "@/lib/storage";
+import type { BoardMeta} } from "@/lib/storage";
 interface BoardContextValue {
     board: BoardData;
+    boards: BoardMeta[];
+    currentBoardId: string;
+    switchBoard: (id: string) => void;
+    createBoard: (name: string) => void;
+    deleteBoard: (id: string) => void;
     addColumn: (title: string) => void;
     deleteColumn: (columnId: string) => void;
     addCard: (columnId: string, data: Omit<CardData, "id" | "createdAt">) => void;
@@ -20,16 +26,28 @@ const BoardContext = createContext<BoardContextValue | null>(null);
 
 export function BoardProvider({ children }: { children: ReactNode }) {
     const [board, setBoard] = useState<BoardData>(() => createDefaultBoard());
-
+    const [boards, setBoards] = useState<BoardMeta[]
+() => [];
+const [currentBoardId, setCurrentBoardId] = useState<string
+() => "default");
     useEffect(() => {
-        const stored = loadBoard();
-        if (stored) {
-            setBoard(stored);
+        let index = loadBoardsIndex();
+        if (index.length === 0) {
+            const legacy = loadBoard();
+            const initial = legacy || createDefaultBoard();
+            index = [{ id: initial.id, name: initial.name }];
+            saveBoardsIndex(index);
+            saveBoardById(initial);
         }
+        setBoards(index);
+        const firstId = index[0].id;
+        setCurrentBoardId(firstId);
+        const data = loadBoardById(firstId) || createDefaultBoard();
+        setBoard(data);
     }, []);
 
     useEffect(() => {
-        saveBoard(board);
+        saveBoardById(board);
     }, [board]);
 
     const addColumn = (title: string) => {
@@ -93,8 +111,38 @@ const reorderColumn = (columnId: string, cardIds: string[]) => {
     }));
 };
 
+const switchBoard = (id: string) => {
+    const data = loadBoardById(id);
+    if (data) {
+        setCurrentBoardId(id);
+        setBoard(data);
+    }
+};
+
+const createBoard = (name: string) => {
+    const newBoard = { ...createDefaultBoard(), id: nanoid(), name };
+    const updated = [...boards, { id: newBoard.id, name: newBoard.name }];
+    setBoards(updated);
+    saveBoardsIndex(updated);
+    saveBoardById(newBoard);
+    setCurrentBoardId(newBoard.id);
+    setBoard(newBoard);
+};
+
+const deleteBoard = (id: string) => {
+    const updated = boards.filter((b) => b.id !== id);
+    setBoards(updated);
+    saveBoardsIndex(updated);
+    deleteBoardData(id);
+    if (id === currentBoardId && updated.length > 0) {
+        switchBoard(updated[0].id);
+    }
+};
+
+
+
 return (
-    <BoardContext.Provider value={{board, addColumn, deleteColumn, addCard, updateCard, deleteCard, moveCard, reorderColumn}}>
+    <BoardContext.Provider value={{board, addColumn, deleteColumn, addCard, updateCard, deleteCard, moveCard, reorderColumn, boards, currentBoardId, switchBoard, createBoard, deleteBoard}}>
         {children}
     </BoardContext.Provider>
 );
