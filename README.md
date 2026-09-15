@@ -1,36 +1,15 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# flowboard
 
-## Getting Started
+kanban board, but haunted. drag your cards around, give them due dates and priorities, keep as many boards as you want, all wrapped in a blood red / creepster font theme because a normal to-do app is boring.
 
-First, run the development server:
+no backend, no login, nothing to sign up for. everything just lives in your browser's localStorage.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## what it actually does
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+- multiple boards - create as many as you need, switch between them, rename or delete them from the dropdown up top
+- columns - add and delete your own, drag cards between them or reorder cards inside one
+- cards - title, description, priority (low/med/high, color coded), an optional due date
+- search bar that filters cards live as you type ("search the crypt...")
+- light/dark toggle if the horror theme is too much for 2am
+- everything autosaves to localStorage per board, so refreshing won't wipe your stuff
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
-
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
