@@ -11,6 +11,7 @@ interface BoardContextValue {
     currentBoardId: string;
     switchBoard: (id: string) => void;
     createBoard: (name: string) => void;
+    renameBoard: (id: string, name: string) => void;
     deleteBoard: (id: string) => void;
     addColumn: (title: string) => void;
     deleteColumn: (columnId: string) => void;
@@ -139,8 +140,20 @@ const deleteBoard = (id: string) => {
 
 
 
+
+const renameBoard = (id: string, name: string) => {
+    const updated = boards.map((b) => (b.id === id ? { ...b, name } : b));
+    setBoards(updated);
+    saveBoardsIndex(updated);
+    if (id === currentBoardId) {
+        const updatedBoard = { ...board, name };
+        setBoard(updatedBoard);
+        saveBoardById(updatedBoard);
+    }
+}
+
 return (
-    <BoardContext.Provider value={{board, addColumn, deleteColumn, addCard, updateCard, deleteCard, moveCard, reorderColumn, boards, currentBoardId, switchBoard, createBoard, deleteBoard}}>
+    <BoardContext.Provider value={{board, addColumn, deleteColumn, addCard, updateCard, deleteCard, moveCard, reorderColumn, boards, currentBoardId, switchBoard, createBoard, deleteBoard, renameBoard}}>
         {children}
     </BoardContext.Provider>
 );
