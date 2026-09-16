@@ -19,7 +19,7 @@ interface TaskCardProps {
 export function TaskCard({ card, onClick }: TaskCardProps) {
     const { deleteCard } = useBoard();
     return (
-        <div onClick={onClick} className="rounded-md border bg-white p-3 cursor-pointer"
+        <div onClick={onClick} className="rounded-md border bg-card text-card-foreground p-3 cursor-pointer"
 >
     <div className="flex items-start justify-between gap-2"
 >
